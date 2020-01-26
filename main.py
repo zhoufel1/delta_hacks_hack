@@ -3,7 +3,7 @@ import pipe
 import time
 import gui
 
-running = False
+running = True
 
 f = gui.Figure(figsize=(5, 5), dpi=100)
 a = f.add_subplot(111)
