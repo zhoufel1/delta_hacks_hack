@@ -103,8 +103,7 @@ class StartPage(tk.Frame):
         label2 = tk.Label(self, text=""" This application pulls data from two CityIQ monitors in Hamilton
         which is then piped """, font=NORM_FONT)
         label2.pack()
-        button1 = ttk.Button(self, text="Show Pedestrian Data", command=lambda:popupmsg("""
-        Future Updates, not yet patched"""))
+        button1 = ttk.Button(self, text="Show Pedestrian Data", controller.show_frame(PedestrianPage))
         button1.pack()
         button2 = ttk.Button(self, text="Show Vehicle Data", command=lambda:popupmsg("""
         Future Updates, not yet patched"""))
