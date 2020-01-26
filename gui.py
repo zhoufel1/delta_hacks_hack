@@ -4,6 +4,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 from matplotlib.figure import Figure
 from matplotlib import style
 import matplotlib.animation as animation
+import pipe
 
 import urllib
 import json
@@ -55,9 +56,9 @@ class CityIQ(tk.Tk):
 
         tk.Tk.__init__(self, *args, **kwargs)
 
-        tk.Tk.iconbitmap(self, default="citm.ico")
+        # tk.Tk.iconbitmap(self, default="citm.ico")
         tk.Tk.wm_title(self, "CityIQ Pipeline Application")
-        
+
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
         container.grid_rowconfigure(0, weight=1)
@@ -70,7 +71,7 @@ class CityIQ(tk.Tk):
         filemenu.add_separator()
         filemenu.add_command(label="Exit", command=quit)
         menubar.add_cascade(label="File", menu=filemenu)
-        
+
         tk.Tk.config(self, menu=menubar)
 
         self.frames = {}
@@ -90,7 +91,7 @@ def qf(param):
     print(param)
 
 class StartPage(tk.Frame):
-    
+
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         label = tk.Label(self, text="CityIQ Pipeline Application", font=LARGE_FONT)
@@ -102,19 +103,19 @@ class StartPage(tk.Frame):
         button1.pack()
 
 class PedestrianPage(tk.Frame):
-    
+
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         label = tk.Label(self, text="Pedestrian Data", font=NORM_FONT)
         label.pack()
-        
+
         button1 = ttk.Button(self, text="Back to Home", command=lambda: controller.show_frame(StartPage))
         button1.pack()
         button2 = ttk.Button(self, text="Show Graph", command=lambda: controller.show_frame(GraphPage))
         button2.pack()
 
 class GraphPage(tk.Frame):
-    
+
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         label = tk.Label(self, text="Graph Page", font=NORM_FONT)
@@ -124,7 +125,7 @@ class GraphPage(tk.Frame):
         button1.pack()
         button2 = ttk.Button(self, text="Back to Pedestrian Page", command=lambda: controller.show_frame(PedestrianPage))
         button2.pack()
-        
+
         # Displaying the Graph (plt.show())
         canvas = FigureCanvasTkAgg(f, self)
         canvas.draw()
@@ -134,9 +135,4 @@ class GraphPage(tk.Frame):
         toolbar.update()
         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
-
-app = CityIQ()
-app.geometry("1280x720")
-ani = animation.FuncAnimation(f, animate, interval=1000)
-app.mainloop()
 

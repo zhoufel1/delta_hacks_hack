@@ -1,11 +1,19 @@
 import requests
 import credentials
+import os
 from requests.auth import HTTPBasicAuth
+from tinydb import TinyDB, Query, where
 
 AUTH_ID = "Hackathon.CITM.Hamilton"
 AUTH_PASS = "Wm,yb&G`KB\\2}d<s"
 BBOX = "-90:-180,90:180"
 
+
+if not os.path.exists("../delta_hacks/db.json"):
+    db = TinyDB("../delta_hacks/db.json")
+    db.insert({"item": "ped", "count": 0, "history": []})
+db = TinyDB("../delta_hacks/db.json")
+dbquery = Query()
 
 class Pipe:
     def __init__(self):
@@ -34,19 +42,30 @@ class Pipe:
         zone = self.tenant['pedestrian']
 
         query = {
-            "pageSize": 100,
+            "pageSize": 1,
             "eventType": 'PEDEVT',
             "startTime": start,
             "endTime": end
         }
 
         headers = {'Authorization': 'Bearer ' + self.token, 'Predix-Zone-Id': zone}
-        return requests.request("GET", self.tenant["event"]+"/assets/" + uid + "/events", headers=headers, params=query).json()['content']
+        response = requests.request("GET", self.tenant["event"]+"/assets/" + uid + "/events", headers=headers, params=query).json()['content']
+        for item in response:
+            if item['measures']['pedestrianCount'] != 0.0:
+                old = int(db.search(dbquery.item == "ped")[0]['count'])
+                db.update({"count": old + item['measures']['pedestrianCount']}, where("item") == 'ped')
+            old = db.search(dbquery.item == "ped")[0]['history']
+            old.append({"time": item['timestamp'], "total": item['measures']['pedestrianCount']})
+            db.update({"history": old})
+        return response
+
 
 
 if __name__ == '__main__':
     pipe = Pipe()
     pipe.fetch_token()
     # print(pipe.fetch_metadata('pedestrian'))
-    print(pipe.fetch_pedestrian_data("f6057765-ae16-4b8a-b0b8-c48de3b193c6", 1579937852293, 1580024252293))
+    response = pipe.fetch_pedestrian_data("f6057765-ae16-4b8a-b0b8-c48de3b193c6", 1579937852293, 1580024252293)
+    u = Query()
+    print(db.search(u.item == "ped"))
 
