@@ -144,8 +144,6 @@ class PedestrianPage(tk.Frame):
         button3.pack()
         button4 = ttk.Button(self, text="Enable Data Fetch", command=lambda: main.start())
         button4.pack()
-        button5 = ttk.Button(self, text="Stop Data Fetch", command=lambda: main.stop())
-        button5.pack()
 
 class GraphPage(tk.Frame):
 
