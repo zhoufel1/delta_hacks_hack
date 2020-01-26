@@ -45,7 +45,4 @@ class Pipe:
 
 
 if __name__ == '__main__':
-    pipe = Pipe()
-    pipe.fetch_token()
-    print(pipe.fetch_metadata("pedestrian"))
-    print(pipe.fetch_pedestrian_data("f6057765-ae16-4b8a-b0b8-c48de3b193c6", "1579935736167", "1580022136167"))
+    pass
