@@ -16,7 +16,6 @@ def data_fetcher():
         response = data_pipe.fetch_pedestrian_data('f6057765-ae16-4b8a-b0b8-c48de3b193c6', 1579962143154, 1580048543154)
         print("Data retrieved... ")
         time.sleep(4)
-    self.after(1000, data_fetcher())
 
 def start():
     global running
