@@ -42,7 +42,7 @@ class Pipe:
         zone = self.tenant['pedestrian']
 
         query = {
-            "pageSize": 1,
+            "pageSize": 10,
             "eventType": 'PEDEVT',
             "startTime": start,
             "endTime": end

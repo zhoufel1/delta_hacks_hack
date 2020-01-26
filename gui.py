@@ -6,6 +6,7 @@ from matplotlib import style
 import matplotlib.animation as animation
 import pipe
 from tinydb import TinyDB, Query
+import time
 
 import urllib
 import json
@@ -39,14 +40,12 @@ def popupmsg(msg):
 
 def animate(i):
     results = db.search(dbquery.item == "ped")[0]['history']
-    dataList = results.split('\n')
     xList = []
-    yList= []
-    for eachLine in dataList:
+    yList = []
+    for eachLine in results:
         if len(eachLine) > 1:
-            x, y = eachLine.split(':')
-            xList.append(int(x))
-            yList.append(int(y))
+            xList.append(time.strftime("%H:%M", time.localtime(eachLine['time'])))
+            yList.append(int(eachLine['total']))
     a.clear()
     a.plot(xList, yList)
 
@@ -151,3 +150,7 @@ class GraphPage(tk.Frame):
         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
 
+app = CityIQ()
+app.geometry("1280x720")
+ani = animation.FuncAnimation(f, animate, interval=1000)
+app.mainloop()
