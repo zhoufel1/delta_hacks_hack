@@ -16,6 +16,8 @@ import numpy as np
 import tkinter as tk
 from tkinter import ttk
 
+import main
+
 LARGE_FONT = ("Verdana", 12)
 NORM_FONT = ("Verdana", 10)
 SMALL_FONT = ("Verdana", 8)
@@ -68,6 +70,7 @@ class CityIQ(tk.Tk):
 
         menubar = tk.Menu(container)
         filemenu = tk.Menu(menubar, tearoff=0)
+
         filemenu.add_command(label="Upcoming Updates", command=lambda:popupmsg("""
         Upcoming updates: Traffic, Bicycle, Parking, Noise levels, Temperature!"""))
         filemenu.add_separator()
@@ -101,9 +104,22 @@ class StartPage(tk.Frame):
         label2 = tk.Label(self, text=""" This application pulls data from two CityIQ monitors in Hamilton
         which is then piped """, font=NORM_FONT)
         label2.pack()
-        button1 = ttk.Button(self, text="Show Pedestrian Data", command=lambda: controller.show_frame(PedestrianPage))
+        button1 = ttk.Button(self, text="Show Pedestrian Data", command=lambda:popupmsg("""
+        Future Updates, not yet patched"""))
         button1.pack()
-
+        button2 = ttk.Button(self, text="Show Vehicle Data", command=lambda:popupmsg("""
+        Future Updates, not yet patched"""))
+        button2.pack()
+        button3 = ttk.Button(self, text="Show Bicycle Data", command=lambda:popupmsg("""
+        Future Updates, not yet patched"""))
+        button3.pack()
+        button4 = ttk.Button(self, text="Show Parking Data", command=lambda:popupmsg("""
+        Future Updates, not yet patched"""))
+        button4.pack()
+        button5 = ttk.Button(self, text="Show Noise Level Data", command=lambda:popupmsg("""
+        Future Updates, not yet patched"""))
+        button5.pack()
+        
 class PedestrianPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -118,7 +134,7 @@ class PedestrianPage(tk.Frame):
         results = db.search(dbquery.item == "ped")[0]['history']
         for i in range(len(results)):
             listbox.insert(i, results[i])
-        listbox.pack(side="top", expand = True);
+        listbox.pack(side="top", expand = True)
         listbox.configure(yscrollcommand=scrollbar.set)
         scrollbar.configure(command=listbox.yview)
 
@@ -126,8 +142,10 @@ class PedestrianPage(tk.Frame):
         button1.pack()
         button2 = ttk.Button(self, text="Show Graph", command=lambda: controller.show_frame(GraphPage))
         button2.pack()
-        button3 = ttk.Button(self, text="Refresh Data")
+        button3 = ttk.Button(self, text="Refresh Data", command=lambda: controller.show_frame(PedestrianPage))
         button3.pack()
+        button4 = ttk.Button(self, text="Update Data", command=lambda: data_fetcher)
+        button4.pack()
 
 class GraphPage(tk.Frame):
 
