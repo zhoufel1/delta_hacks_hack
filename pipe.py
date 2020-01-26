@@ -67,5 +67,4 @@ if __name__ == '__main__':
     # print(pipe.fetch_metadata('pedestrian'))
     response = pipe.fetch_pedestrian_data("f6057765-ae16-4b8a-b0b8-c48de3b193c6", 1579937852293, 1580024252293)
     u = Query()
-    print(db.search(u.item == "ped"))
-
+    print(db.search(u.item == "ped")[0]['history'])

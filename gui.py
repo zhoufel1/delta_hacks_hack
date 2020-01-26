@@ -5,6 +5,7 @@ from matplotlib.figure import Figure
 from matplotlib import style
 import matplotlib.animation as animation
 import pipe
+from tinydb import TinyDB, Query
 
 import urllib
 import json
@@ -22,7 +23,8 @@ SMALL_FONT = ("Verdana", 8)
 # Drawing the Graph
 f = Figure(figsize = (5, 5), dpi = 100)
 a = f.add_subplot(111)
-
+db = TinyDB("../delta_hacks/db.json")
+dbquery = Query()
 
 
 def popupmsg(msg):
@@ -94,7 +96,7 @@ class StartPage(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        label = tk.Label(self, text="CityIQ Pipeline Application", font=LARGE_FONT)
+        label = ttk.Label(self, text="CityIQ Pipeline Application", font=LARGE_FONT)
         label.pack()
         label2 = tk.Label(self, text=""" This application pulls data from two CityIQ monitors in Hamilton
         which is then piped """, font=NORM_FONT)
@@ -103,11 +105,22 @@ class StartPage(tk.Frame):
         button1.pack()
 
 class PedestrianPage(tk.Frame):
-
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        label = tk.Label(self, text="Pedestrian Data", font=NORM_FONT)
+        label = ttk.Label(self, text="Pedestrian Data", font=NORM_FONT)
         label.pack()
+
+        #scrollbar for listbox
+        scrollbar = tk.Scrollbar(self)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+        listbox = tk.Listbox(self, width = 50)
+        results = db.search(dbquery.item == "ped")[0]['history']
+        for i in range(len(results)):
+            listbox.insert(i, results[i])
+        listbox.pack(side="top", expand = True);
+        listbox.configure(yscrollcommand=scrollbar.set)
+        scrollbar.configure(command=listbox.yview)
 
         button1 = ttk.Button(self, text="Back to Home", command=lambda: controller.show_frame(StartPage))
         button1.pack()
