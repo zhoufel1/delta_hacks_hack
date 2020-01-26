@@ -11,7 +11,6 @@ class Pipe:
     def __init__(self):
         self.tenant = credentials.credentials["City"]
         self.token = None
-        self.bbox = "-90:-180,90:180"
 
     def get_tenant(self):
         return self.tenant
@@ -25,9 +24,6 @@ class Pipe:
 
     def get_token(self):
         return self.token
-
-    def get_bbox(self):
-        return self.bbox
 
     def fetch_metadata(self, zone):
         # Zone takes parking, traffic, pedestrian, bicycle.
