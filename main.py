@@ -11,8 +11,8 @@ def data_fetcher():
     data_pipe = pipe.Pipe()
     data_pipe.fetch_token()
     while True:
-        response = data_pipe.fetch_pedestrian_data('f6057765-ae16-4b8a-b0b8-c48de3b193c6', 1579937852293, 1580024252293)
-        print("Data retrieved... (1 Point)")
+        response = data_pipe.fetch_pedestrian_data('f6057765-ae16-4b8a-b0b8-c48de3b193c6', 1579962143154, 1580048543154)
+        print("Data retrieved... ")
         time.sleep(5)
 
 
