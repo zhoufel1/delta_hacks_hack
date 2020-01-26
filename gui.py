@@ -38,13 +38,13 @@ def popupmsg(msg):
     popup.mainloop()
 
 def animate(i):
-    pullData = open("sampleData.txt","r").read()
-    dataList = pullData.split('\n')
+    results = db.search(dbquery.item == "ped")[0]['history']
+    dataList = results.split('\n')
     xList = []
     yList= []
     for eachLine in dataList:
         if len(eachLine) > 1:
-            x, y = eachLine.split(',')
+            x, y = eachLine.split(':')
             xList.append(int(x))
             yList.append(int(y))
     a.clear()
@@ -126,6 +126,8 @@ class PedestrianPage(tk.Frame):
         button1.pack()
         button2 = ttk.Button(self, text="Show Graph", command=lambda: controller.show_frame(GraphPage))
         button2.pack()
+        button3 = ttk.Button(self, text="Refresh Data")
+        button3.pack()
 
 class GraphPage(tk.Frame):
 
