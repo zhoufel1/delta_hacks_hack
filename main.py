@@ -3,7 +3,7 @@ import pipe
 import time
 import gui
 
-running = True
+running = False
 
 f = gui.Figure(figsize=(5, 5), dpi=100)
 a = f.add_subplot(111)
@@ -21,6 +21,7 @@ def data_fetcher():
 def start():
     global running
     running = True
+    data_fetcher()
 
 def stop():
     global running
