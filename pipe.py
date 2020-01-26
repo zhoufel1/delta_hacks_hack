@@ -43,6 +43,30 @@ class Pipe:
         headers = {'Authorization': 'Bearer ' + self.token, 'Predix-Zone-Id': zone}
         return requests.request("GET", self.tenant["event"]+"/assets/" + uid + "/events", headers=headers, params=query).json()['content']
 
+    def fetch_bike_data(self, uid, start, end):
+        zone = self.tenant['BICYCLE']
+
+        query = {
+            "pageSize": 100,
+            "eventType": 'BICYCLE',
+            "startTime": start,
+            "endTime": end
+        }
+        headers = {'Authorization': 'Bearer ' + self.token, 'Predix-Zone-Id': zone}
+        return requests.request("GET", self.tenant["event"]+"/assets/" + uid + "/events", headers=headers, params=query).json()['content']
+    
+    def fetch_temperature_data(self, uid, start, end):
+        zone = self.tenant['TEMPERATURE']
+
+        query = {
+            "pageSize": 100,
+            "eventType": 'TEMPERATURE',
+            "startTime": start,
+            "endTime": end 
+        }
+        headers = {'Authorization': 'Bearer ' + self.token, 'Predix-Zone-Id': zone}
+        return requests.request("GET", self.tenant["event"]+"/assets/" + uid + "/events", headers=headers, params=query).json()['content']
+
 
 if __name__ == '__main__':
     pipe = Pipe()
